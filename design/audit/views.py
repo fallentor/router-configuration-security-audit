@@ -105,10 +105,16 @@ def audit_(request):
 		device = Device.objects.get(id=device_id)
 		name = device.node_name
 		address = device.node_ip
-		print(address)
 		config_path = os.path.join(settings.BASE_DIR, 'static', 'audit_files', f"{address}.txt")
 		json_file = os.path.join(settings.BASE_DIR, 'static', 'audit_files', 'json_', f"{address}.json")
 		try:
+			with open(config_path, 'r', encoding='utf-8') as f:
+				config = f.read()
+			pattern = r'Building configuration'
+			match = re.findall(pattern, config)
+			if not match:
+				raise Exception('This is not a config_path')
+
 			check_all_object(config_path, json_file)
 			if not AuditResult.objects.filter(sort_id=device_id).exists():
 				auditResult = AuditResult.objects.create(sort_id=device_id, name=name, address=address,remark='已审计')

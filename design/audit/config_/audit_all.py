@@ -11,6 +11,19 @@ filename 为 清洗后的 acl_rulse.csv 文件
 	config_path 为 路由器配置文件
 """
 def check_all_object(config_path, json_file):
+
+	try: 
+		with open(config_path, 'r', encoding='utf-8') as f:
+			config = f.read()
+		pattern = r'Building configuration'
+		match = re.findall(pattern, config)
+		print(1111)
+		if not match:
+			raise Exception('This is not a config_path')
+	except Exception as e:
+		print(f'This is not a config_path: {e}')
+		return
+		
 	path = os.path.dirname(os.path.abspath(__file__))
 	parent_dir_path = os.path.dirname(os.path.dirname(path))
 	filename = f"{parent_dir_path}\\static\\audit_files\\acl_rules.csv"
