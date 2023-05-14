@@ -1,0 +1,49 @@
+body {
+  background-color: #f1f1f1;
+}
+.container {
+  background-color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  margin-top: 50px;
+  border-radius: 5px;
+}
+
+.top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+form {
+  margin-top: 30px;
+}
+
+/* 新增样式 */
+.form-group.submit-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px; 
+  margin-bottom: -20px; /* 如果有需要，可以调整去掉负值 */
+}
+
+.submit-button {
+  float: right;
+  margin-bottom: 20px;
+}
+
+/* 修改样式 */
+h2 {
+  text-align: center;!import
+  margin-bottom: 20px;
+  margin:0 auto;
+  color:#007bff;
+}
+
+.alert-fixed {
+  position: fixed;
+  z-index: 9999;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+}

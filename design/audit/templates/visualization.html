@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+	<link rel="stylesheet" type="text/css" href="/static/css/audit/audit.css">
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-md-12">
+          <h4>任务信息</h4>
+          <table class="table table-striped table-bordered table-hover">
+            <tr>
+              <td>节点名称</td>
+              <td>
+              	<div class="row justify-content-center">
+	              	<div class="col-md-5">
+		              	<select name="addresses" class="form-control address-select">
+							{% for address_ in addresses %}
+							   <option  
+							     {% if address_ == address %}
+							       selected      
+							     {% endif %}  
+							       class="dropdown-item"
+							       value="{{ address_ }}">
+							       {{ address_ }}
+							   </option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="col-md-1">
+						<button type="button" class="btn btn-primary ml-2 check-btn"><i class="fa fa-eye"></i>  
+	  					</button> 
+	  				</div>
+  				</div>
+              </td>
+              <td>设备名称</td>
+              <td>{{ auditResult.name }}</td>
+            </tr> 
+            <tr>
+              <td>开始时间</td>
+              <td>{{ auditResult.timestamp }}</td>
+              <td>结束时间</td>
+              <td>{{ auditResult.timestamp }}</td>
+            </tr>
+          </table>
+        </div>
+    </div>
+
+    <form id="myForm" action="{% url 'visualization' %}" method="post">
+  		<input type="hidden" name="address" id="address">
+	</form>
+
+    <h4>结果可视化</h4>
+
+	<!--饼状图-->
+	<div class="row justify-content-center">
+		<div class='col-sm-6 col-md-5 mx-4'>
+			<!--风险类型饼状图-->
+	    	<div id="riskLevel_pie_chart"  style="width: 400px; height: 300px;"></div>
+	    </div>
+
+	    <div class='col-sm-6 col-md-5 mx-4'>
+		    <!--策略类型饼状图-->
+		    <div id="tacticGroup_pie_chart"  style="width: 400px; height: 300px;"></div>
+		</div>
+	</div>
+	
+	<!--柱状图-->
+	<div class="row justify-content-center">
+		<div class="col-sm-6 col-md-5 mx-4">
+			<!--策略类型柱状图-->
+    		<div id="tacticGroup_col_chart" style="width: 400px; height: 300px;"></div>
+		</div>
+		<div class="col-sm-6 col-md-5 mx-4">
+			<!--风险类型柱状图-->
+    		<div id="riskLevel_col_chart" style="width: 400px; height: 300px;"></div>
+		</div>
+	</div>
+    
+    
+
+{% endblock %}
+
+{% block extra_js %} 
+	<br>
+	<script type="text/javascript" src="/static/loader.js"></script>
+	<script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+        
+        function drawChart() {
+          // 绘制饼状、柱状图-风险类型
+          var riskLevelData = google.visualization.arrayToDataTable([
+             ['风险类型', '数量'],
+             {% for key, value in risk_level_count.items %}
+             ['{{ key }}', {{ value }}],  
+             {% endfor %}
+          ]);
+          
+          var riskLevelPieOptions = {
+             title: '按风险级别分类的风险分布饼状图',
+             titleTextStyle: {
+  					fontSize: 14  
+  				}
+          };
+          
+          var riskLevelColOptions = {
+          	title: '按风险级别分类的风险分布柱状图',
+          	titleTextStyle: {
+  					fontSize: 14  
+  				}
+          };
+
+          // 饼状图
+          var riskLevelPieChart = new google.visualization.PieChart(document.getElementById('riskLevel_pie_chart'));
+          riskLevelPieChart.draw(riskLevelData, riskLevelPieOptions);
+          
+          // 柱状图
+          var riskLevelColChart = new google.visualization.ColumnChart(document.getElementById('riskLevel_col_chart'));
+          riskLevelColChart.draw(riskLevelData, riskLevelColOptions);
+
+          // 绘制饼状、柱状图-策略类型
+          var tacticGroupData = google.visualization.arrayToDataTable([
+             ['策略类型', '数量'],
+             {% for key, value in tactic_group_count.items %}
+             ['{{ key }}', {{ value }}],  
+             {% endfor %} 
+          ]);
+          
+          var tacticGroupColOptions = {
+             title: '按策略类型分类的风险分布柱状图',
+             titleTextStyle: {
+  					fontSize: 14  
+  				}  
+          };
+          
+          var tacticGroupPieOptions = {
+             title: '按策略类型分类的风险分布饼状图',
+             titleTextStyle: {
+  					fontSize: 14  
+  				}  
+          };
+
+          // 饼状图
+          var tacticGroupPieChart = new google.visualization.PieChart(document.getElementById('tacticGroup_pie_chart'));
+          tacticGroupPieChart.draw(tacticGroupData, tacticGroupPieOptions); 
+
+          // 柱状图
+          var tacticGroupColChart = new google.visualization.ColumnChart(document.getElementById('tacticGroup_col_chart'));
+          tacticGroupColChart.draw(tacticGroupData, tacticGroupColOptions);  
+        }
+    </script>
+
+    <script type="text/javascript">
+    	$(function() {
+		  $(".check-btn").click(function(){    
+		  		console.log(111)
+		    	var addr = $('.address-select').val();
+		    	$('#address').val(addr);  
+  			 	$('#myForm').submit(); 
+		  });
+		})
+    </script>
+{% endblock %}

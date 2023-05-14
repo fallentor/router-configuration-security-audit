@@ -1,0 +1,121 @@
+[
+    {
+        "id": 1,
+        "tactic_group": "UM",
+        "tactic_name": "管理员最大在线人数检测",
+        "risk_level": "低级",
+        "audit_result": true
+    },
+    {
+        "id": 2,
+        "tactic_group": "UM",
+        "tactic_name": "用户登录失败次数检测",
+        "risk_level": "中级",
+        "audit_result": false
+    },
+    {
+        "id": 3,
+        "tactic_group": "UM",
+        "tactic_name": "用户超时断连检测",
+        "risk_level": "低级",
+        "audit_result": false
+    },
+    {
+        "id": 4,
+        "tactic_group": "UM",
+        "tactic_name": "console用户登录验证方式检测",
+        "risk_level": "低级",
+        "audit_result": true
+    },
+    {
+        "id": 5,
+        "tactic_group": "UM",
+        "tactic_name": "vty用户登录验证方式检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 6,
+        "tactic_group": "OG",
+        "tactic_name": "空服务对象组检测",
+        "risk_level": "低级",
+        "audit_result": true
+    },
+    {
+        "id": 7,
+        "tactic_group": "OG",
+        "tactic_name": "服务对象组冗余检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 8,
+        "tactic_group": "OG",
+        "tactic_name": "地址对象组冗余检测",
+        "risk_level": "低级",
+        "audit_result": true
+    },
+    {
+        "id": 9,
+        "tactic_group": "OG",
+        "tactic_name": "自定义服务冗余检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 10,
+        "tactic_group": "C",
+        "tactic_name": "telnet服务检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 11,
+        "tactic_group": "C",
+        "tactic_name": "ssh IP限制检测",
+        "risk_level": "低级",
+        "audit_result": false
+    },
+    {
+        "id": 12,
+        "tactic_group": "C",
+        "tactic_name": "snmp服务检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 13,
+        "tactic_group": "C",
+        "tactic_name": "web服务安全检测",
+        "risk_level": "低级",
+        "audit_result": true
+    },
+    {
+        "id": 14,
+        "tactic_group": "AC",
+        "tactic_name": "服务授权过度检测",
+        "risk_level": "中级",
+        "audit_result": true
+    },
+    {
+        "id": 15,
+        "tactic_group": "AC",
+        "tactic_name": "目的地址授权过度检测",
+        "risk_level": "中级",
+        "audit_result": false
+    },
+    {
+        "id": 16,
+        "tactic_group": "AC",
+        "tactic_name": "服务冗余检测",
+        "risk_level": "低级",
+        "audit_result": false
+    },
+    {
+        "id": 17,
+        "tactic_group": "AC",
+        "tactic_name": "服务异常检测",
+        "risk_level": "中级",
+        "audit_result": false
+    }
+]

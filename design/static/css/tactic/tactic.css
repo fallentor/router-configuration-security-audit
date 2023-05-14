@@ -1,0 +1,30 @@
+table {
+    font-size: 16px;
+}
+
+th,
+td {
+    text-align: center;
+}
+
+th input[type="radio"] {
+    display: none;
+}
+
+th input[type="radio"]:checked+label::before {
+    opacity: 1;
+}
+
+td input[type="radio"] {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.row-hover:hover {
+    background-color: #f7f7f7;
+}
+
+.row-selected {
+    background-color: rgba(102, 175, 255, 0.2);
+}

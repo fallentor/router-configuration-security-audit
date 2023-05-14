@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+	<link rel="stylesheet" type="text/css" href="/static/css/tactic/tactic_edit.css">
+{% endblock %}
+
+{% block content %}
+
+	<div class="top-section">
+      <a href="{% url 'tactic_list' %}">
+        <i class="fas fa-arrow-left"></i>
+        返回
+      </a>
+      <h2>查看/修改策略</h2>
+    </div>
+
+    <!-- 表单 -->
+    <form method="post" action="{% url 'edit_tactic' %}" id="edit-form">
+      {% csrf_token %}
+
+      <!-- 隐藏的 input 元素 -->
+	  <input name="tactic_id" value="{{ tactic.id }}" type="hidden">
+
+      <div class="form-group">
+        <label for="tactic_name">策略名称:</label>
+        <input type="text" class="form-control" id="tactic_name" name="tactic_name" placeholder="{{ tactic.tactic_name }}" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="tactic_group">策略组名称:</label>
+        <input type="text" class="form-control" id="tactic_group" name="tactic_group" placeholder="{{ tactic.get_tactic_group_display }}" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="risk_level">风险等级:</label>
+        <input type="text" class="form-control" id="risk_level" name="risk_level" placeholder="{{ tactic.risk_level }}" pattern="^$|^(中级|低级)$">
+      </div>
+
+      <div class="form-group">
+        <label for="tactic_remarks">策略备注:</label>
+        <input type="text" class="form-control text-nowrap overflow-hidden" id="tactic_remarks" name="tactic_remarks" placeholder="{{ tactic.tactic_remarks }}">
+      </div>
+
+      <div class="form-group">
+        <label for="risk_description">策略风险描述:</label>
+        <input type="text" class="form-control text-nowrap overflow-hidden" id="risk_description" name="risk_description" placeholder="{{ tactic.risk_description }}">
+      </div>
+
+      
+      <div class="form-group">
+        <label for="edit_suggestion">修改建议:</label>
+        <input type="text" class="form-control text-nowrap overflow-hidden" id="edit_suggestion" name="edit_suggestion" placeholder="{{ tactic.edit_suggestion }}">
+      </div>
+
+      <div class="form-group submit-group">
+        <button id="edit_button" type="submit" class="btn btn-primary submit-button">修改</button>
+      </div>
+
+    </form>
+
+
+    <!-- 成功提示框 -->
+    <div id="success-box" class="alert alert-success d-none fixed-top" role="alert" style="text-align:center;">
+      <span id="success-msg" ></span>
+    </div>
+
+    <!-- 错误提示框 -->
+    <div id="error-box" class="alert alert-danger d-none fixed-top" role="alert" style="text-align:center;">
+      <span id="error-msg" style="text-align:center;"></span>
+    </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+	<!-- <!-- 添加一个或多个空行 -->
+	<br><br>
+  
+  <script src="/static/js/tactic/tactic_edit.js"></script>
+{% endblock %}

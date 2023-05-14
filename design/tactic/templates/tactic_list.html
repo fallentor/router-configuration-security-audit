@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+	<link rel="stylesheet" type="text/css" href="/static/css/tactic/tactic.css">
+{% endblock %}
+
+{% block content %}
+	
+	<!-- table 主体 -->
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover">
+		        <thead>
+		          <tr>
+		          	<th scope="col"></th>
+		            <th scope="col"><input type="radio" name="node" disabled></th></th>
+		            <th scope="col">策略名称</th>
+		            <th scope="col">策略类型</th>
+		            <th scope="col">更新策略</th>
+		            <th scope="col">查看/修改</th>
+		            <th scope="col">删除</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          {% for tactic in page %}
+		            <tr>
+		              <td>
+		              	{{ tactic.id }}
+		              </td>
+		              <td>
+		                <input type="radio" name="tactic_select" value="{{ tactic.id }}" />
+		              </td>
+		              <td>
+		                {{ tactic.tactic_name }}
+		              </td>
+		              <td>
+		                {{ tactic.get_tactic_group_display }}
+		              </td>
+		              <td>
+		                <button type="button" class="btn btn-primary update-btn" data-id="{{ tactic.id }}"><i class="fas fa-sync-alt"></i></button>
+		              </td>
+		              <td>
+		              	<button type="button" class="btn btn-outline-secondary edit-btn" data-id="{{ tactic.id }}"><i class="fas fa-edit"></i></button>
+		              </td>
+		              <td>
+		              	<form method="post" action="{% url 'delete_tactic' %}" id="delete-form">
+		                	<button type="button" class="btn btn-danger delete-btn" data-id="{{ tactic.id }}"><i class="far fa-trash-alt"></i></button>
+		            	</form>
+		              </td>
+		            </tr>
+		          {% endfor %}
+		        </tbody>
+	    	</table>
+	    </div>	
+	</div>
+
+
+	<!-- 隐藏的 input，用于提交数据 --> 
+	<form id="edit-form" method="post" action="{% url 'tactic_edit' %}">
+	    {% csrf_token %}
+	    <!-- 隐藏的 input 元素 -->
+    	<input id="id-input" name="tactic_id" type="hidden">
+	</form>
+
+
+	<!-- 确认删除提示框 -->
+    <div class="modal fade" id="confirm-delete-modal" tabindex="-1" aria-labelledby="confirm-delete-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-delete-modal-title">确认删除</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    您确定要删除选定的策略吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 分页栏 -->
+    <div style="text-align: center;">
+            <div style="display:inline-block;">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {% if page.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">上一页</span></li>
+                        {% endif %}
+                        {% for i in page.paginator.page_range %}
+                            {% if page.number == i %}
+                                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">下一页</a></li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">下一页</span></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block extra_js %} 
+	 <script src="/static/js/tactic/tactic_list.js"></script>
+{% endblock %}

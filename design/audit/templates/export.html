@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+	<link rel="stylesheet" type="text/css" href="/static/css/audit/export.css">
+{% endblock %}
+
+{% block content %}
+	<div class="top-section">
+      <a href="{% url 'audit_list' %}">
+        <i class="fas fa-arrow-left"></i>
+        返回
+      </a>
+    </div>
+	<div class="row justify-content-center">
+    <div class="col-sm-6 col-md-5 mx-4">
+      <div class="title">设备信息</div>
+      <form>
+        <div class="form-group">
+          <label for="node-name">节点名称:</label>
+          <input type="text" id="node-name" class="form-control" placeholder="{{ device.node_name }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="node-ip">节点地址:</label>
+          <input type="text" id="node-ip" class="form-control" placeholder="{{ device.node_ip }}" readonly>
+        </div>
+        <div class="form-group">
+          <label for="node-status">节点状态:</label>
+          <input type="text" id="node-status" class="form-control" placeholder="{{ device.node_status }}" readonly>
+        </div>
+      </form>
+      
+      <div class="title radio-title">配置文件获取方式</div>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active" style="margin-right: 50px;">
+          <input type="radio" name="export-radio" value="online" id="online-id" autocomplete="off"> 在线获取
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="export-radio" value="offline" id="offline-id" autocomplete="off"> 手动导入
+        </label>
+      </div>
+
+
+    </div>
+    <div class="col-sm-6 col-md-5 mx-4">
+      <div class="title">登录设备信息</div>
+      <form method="post" action="{% url 'export' %}" id="export1">
+        <input type="hidden" name="id-input" id="device_id" value="{{ device.id }}">
+        <div class="form-group">
+          <label for="hostname">主机:</label>
+          <input type="text" id="hostname" class="form-control" placeholder="{{ device.node_ip }}">
+        </div>
+        <div class="form-group">
+          <label for="username">用户名:</label>
+          <input type="text" id="username" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="password">密码:</label>
+          <input type="text" id="password" class="form-control">
+        </div>
+      </form>
+      <div class="title upload-title">配置文件上传</div>
+      <form method="post" action="{% url 'export' %}" id="export2" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="id-input" id="device_id" value="{{ device.id }}">
+        <div class="form-group">
+          <input type="file" id="config-file" class="form-control-file">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="submit-btn">
+        <button type="button" class="btn btn-primary" id="submit_btn">获取</button>
+  </div>
+{% endblock %}
+	
+{% block extra_js %} 
+	<br><br>
+  <script src="/static/js/audit/export.js"></script>
+{% endblock %}

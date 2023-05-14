@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+	<link rel="stylesheet" type="text/css" href="/static/css/tactic/tactic.css">
+{% endblock %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-bordered table-striped table-hover">
+		        <thead>
+		          <tr>
+		            <th scope="col"><input type="radio" name="node" disabled></th></th>
+		            <th scope="col">策略组名称</th>
+		            <th scope="col">备注</th>
+		            <th scope="col">更新</th>
+		            <th scope="col">删除</th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          {% for tactic_remark in tactic_remarks_data %}
+		            <tr>
+		              <td>
+		                <input type="radio" name="tactic_remark_select" value="{{ tactic_remark.id }}" />
+		              </td>
+		              <td>
+		                {{ tactic_remark.get_tactic_group_display }}
+		              </td>
+		              <td>
+		                {{ tactic_remark.remarks }}
+		              </td>
+		              <td>
+		                <button type="button" class="btn btn-primary update-btn" data-id="{{ tactic_remark.id }}"><i class="fas fa-sync-alt"></i></button>
+		              </td>
+		              <td>
+		              	<form method="post" action="{% url 'delete_tactic_group' %}" id="delete-form">
+		                	<button type="button" class="btn btn-danger delete-btn" data-id="{{ tactic_remark.id }}"><i class="far fa-trash-alt"></i></button>
+		            	</form>
+		              </td>
+		            </tr>
+		          {% endfor %}
+		        </tbody>
+	    	</table>
+	    </div>	
+	</div>
+
+	<!-- 确认删除提示框 -->
+    <div class="modal fade" id="confirm-delete-modal" tabindex="-1" aria-labelledby="confirm-delete-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-delete-modal-title">确认删除</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    您确定要删除选定的策略组吗？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %} 
+	 <script src="/static/js/tactic/tacticGroup_list.js"></script>
+{% endblock %}

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Log Records</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 引入 Bootstrap 样式表 -->
+  <link rel="stylesheet" href="/static/bootstrap-4.6.0/dist/js/bootstrap.min.js"
+    integrity="sha384-yu8ic2LJ7sirwkxvTzRNnyMB9IhJG7jfl/XpMYRVwqJ6DZ+atucOIxPPU/bc6gQl"
+    crossorigin="anonymous">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding-top: 20px;
+      padding-bottom: 50px;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .page-link {
+      color: #007bff;
+    }
+
+    .pagination {
+      justify-content: center;
+      margin-top: 30px;
+      margin-bottom: 0;
+    }
+
+    .log-item {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .log-item .timestamp {
+      font-weight: bold;
+    }
+
+    .log-item .method {
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    /*.log-item .level-debug {
+      color: white;
+      background-color: #17a2b8;
+    }
+
+    .log-item .level-info {
+      color: black;
+      background-color: #f8d7da;
+    }
+
+    .log-item .level-warning {
+      color: black;
+      background-color: #ffc107;
+    }
+
+    .log-item .level-error {
+      color: white;
+      background-color: #dc3545;
+    }
+
+    .log-item .level-critical {
+      color: white;
+      background-color: #721c24;
+    }
+*/
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    {% if logs %}
+      {% for log in logs %}
+        {% if 'log' not in log.request_url %}
+        <div class="log-item">
+            <p><span class="timestamp">{{ log.timestamp }}</span> - <span class="method">{{ log.request_method }}</span></p>
+            <p>{{ log.request_url }}</p>
+            <p>{{ log.user_agent }}</p>
+            {% if log.is_logged_in_first_time %}
+                <p>{{ username }} 登录系统</p>
+            {% else %}
+                <p>Current user: {{ username }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+      {% endfor %}
+
+      {% if is_paginated %}
+        <nav aria-label="Page navigation">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+              <li class="page-item disabled"><span class="page-link">&lsaquo;</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if num == page_obj.number %}
+                <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&rsaquo;</span></li>
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+      {% endif %}
+    {% else %}
+      <p>No logs found.</p>
+    {% endif %}
+  </div>
+
+  <!-- 引入 Bootstrap JavaScript 库 -->
+  <script src="/static/bootstrap-4.6.0/dist/js/bootstrap.min.js"
+    integrity="sha384-z4MeOndLJhXOvFyfSbLdnCE86+oQ2kvApn1hCg/X4lKDdqYSZF29Y9o4l7zqPPTx"
+    crossorigin="anonymous"></script>
+</body>
+</html>

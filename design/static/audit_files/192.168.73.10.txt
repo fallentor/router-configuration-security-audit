@@ -1,0 +1,302 @@
+
+
+Building configuration...
+
+
+
+  
+
+  
+
+Current configuration : 1227 bytes
+
+!
+
+! Last configuration change at 07:38:03 UTC Tue May 2 2023
+
+!
+
+version 15.6
+
+service timestamps debug datetime msec
+
+service timestamps log datetime msec
+
+no platform punt-keepalive disable-kernel-core
+
+platform console virtual
+
+!
+
+hostname router
+
+!
+
+boot-start-marker
+
+boot-end-marker
+
+!
+
+!
+
+!
+
+no aaa new-model
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+
+
+
+
+
+
+ip domain name router.com
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+subscriber templating
+
+!
+
+!
+
+!
+
+multilink bundle-name authenticated
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+license udi pid CSR1000V sn 9OMSN7TWNPD
+
+license boot level ax
+
+!
+
+spanning-tree extend system-id
+
+!
+
+username admin privilege 15 password 0 123456
+
+!
+
+redundancy
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+! 
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+!
+
+! 
+
+! 
+
+! 
+
+! 
+
+! 
+
+! 
+
+!
+
+!
+
+interface GigabitEthernet1
+
+ ip address 192.168.73.10 255.255.255.0
+
+ negotiation auto
+
+!
+
+interface GigabitEthernet2
+
+ no ip address
+
+ shutdown
+
+ negotiation auto
+
+!
+
+interface GigabitEthernet3
+
+ no ip address
+
+ shutdown
+
+ negotiation auto
+
+!
+
+!
+
+virtual-service csr_mgmt
+
+!
+
+ip forward-protocol nd
+
+!
+
+no ip http server
+
+ip http secure-server
+
+!
+
+!
+
+!
+
+!
+
+!
+
+control-plane
+
+!
+
+ !
+
+ !
+
+ !
+
+ !
+
+!
+
+!
+
+!
+
+!
+
+!
+
+line con 0
+
+ stopbits 1
+
+line vty 0
+
+ login local
+
+ transport input ssh
+
+line vty 1
+
+ login local
+
+ length 0
+
+ transport input ssh
+
+line vty 2 4
+
+ login local
+
+ transport input ssh
+
+!
+
+!
+
+end
+

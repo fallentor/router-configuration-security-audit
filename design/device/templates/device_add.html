@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block extra_css %} 
+  <!-- 页面自定义样式 -->
+  <link rel="stylesheet" type="text/css" href="/static/css/device/device_add.css">
+{% endblock %}
+
+{% block content %}
+  
+    <div class="top-section">
+      <a href="{% url 'device' %}">
+        <i class="fas fa-arrow-left"></i>
+        返回
+      </a>
+      <h2>增加设备</h2>
+    </div>
+    <hr>
+    <form method="post" action="{% url 'add_device' %}" id="device-form">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="node_name">节点名称:</label>
+        <input type="text" class="form-control" id="node_name" name="node_name" placeholder="请输入名称" required>
+      </div>
+
+      <div class="form-group">
+        <label for="node_ip">节点IP地址:</label>
+        <input type="text" class="form-control" id="node_ip" name="node_ip" placeholder="请输入IP地址"
+          pattern="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" title="请输入正确的IP地址格式，例如：192.168.0.1" onblur="checkIp(this)"/>
+        <small class="form-text text-muted">请输入正确的IP地址格式</small>
+        <div id="ip_warning" class="alert alert-danger d-none" role="alert"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="node_status">节点状态:</label>
+        <select class="form-control" id="node_status" name="node_status" required>
+          <option value="online">在线</option>
+          <option value="offline">离线</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="last_checked">最近检测:</label>
+        <input type="datetime-local" class="form-control" id="last_checked" name="last_checked"
+          placeholder="YYYY-MM-DDTHH:MM:SS" required>
+        <small class="form-text text-muted">请输入正确的时间格式（例如：2023-04-25T12:00）</small>
+        <div id="time_warning" class="alert alert-danger d-none" role="alert">时间格式不正确，请重新输入！</div>
+      </div>
+
+      <div class="form-group">
+        <label for="remark">备注:</label>
+        <input type="text" class="form-control" id="remark" name="remark" placeholder="请输入备注">
+      </div>
+
+      <div class="form-group submit-group">
+        <button id="save_button" type="submit" class="btn btn-primary submit-button">保存</button>
+      </div>
+
+    </form>
+
+    <!-- 成功提示框 -->
+    <div id="success-box" class="alert alert-success d-none fixed-top" role="alert" style="text-align:center;">
+      <span id="success-msg" ></span>
+    </div>
+    <!-- 错误提示框 -->
+    <div id="error-box" class="alert alert-danger d-none fixed-top" role="alert" style="text-align:center;">
+      <span id="error-msg" style="text-align:center;"></span>
+    </div>
+
+
+{% endblock %}
+
+{% block extra_js %} 
+    <!-- 添加一个或多个空行 -->
+  <br><br><br>
+  <!-- 引入jQuery和Bootstrap JavaScript -->
+  <script src="/static/js/device/device_add.js"></script>
+{% endblock %}
+
